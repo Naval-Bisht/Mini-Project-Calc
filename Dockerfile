@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk
 WORKDIR /app
 
 # Copy the JAR file into the container
-COPY Sinc_calc.jar /app/Sinc_calc.jar
+COPY Sinc_calc.jar /app/sinc_calc.jar
 
 # Expose a port if needed (Optional)
 EXPOSE 8080
