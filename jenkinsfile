@@ -5,7 +5,8 @@ pipeline {
    }
     environment {
         DOCKER_IMAGE_NAME = 'Sinc_calc'
-        GITHUB_REPO_URL = 'https://github.com/BThangaraju/calculator.git'
+        GITHUB_REPO_URL = 'https://github.com/Naval-Bisht/Mini-Project-Calc.git'
+       //#GITHUB_REPO_URL = 'https://github.com/BThangaraju/calculator.git'
     }
 
     stages {
@@ -31,8 +32,8 @@ pipeline {
             steps {
                 script{
                     docker.withRegistry('', 'DockerHubCred') {
-                    sh 'docker tag calculator iiitb/calculator:latest'
-                    sh 'docker push iiitb/calculator'
+                    sh 'docker tag calculator navalbisht444/test:latest'
+                    sh 'docker push navalbisht444/test'
                     }
                  }
             }
