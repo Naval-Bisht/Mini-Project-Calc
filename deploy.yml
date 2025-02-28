@@ -1,0 +1,24 @@
+---
+- name: Pull Docker Image and Run Container
+  hosts: localhost
+  remote_user: naval1
+  become: false
+  tasks:
+    - name: Pull Docker Image from Docker Hub
+      docker_image:
+        name: "navalbisht444/test"
+        source: pull
+      register: docker_pull_result
+
+    - name: Display Docker Pull Result
+      debug:
+        var: docker_pull_result
+        
+    - name: Start Docker Service
+      service:
+        name: docker
+        state: started
+
+    - name: Run sinc_calc Container
+      shell: docker run -it -d --name sinc_calc navalbisht444/test /bin/bash
+
