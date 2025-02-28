@@ -4,6 +4,16 @@
   remote_user: naval1
   become: false
   tasks:
+    - name: Stop and Remove Existing sinc_calc Container (if exists)
+      shell: |
+        docker stop sinc_calc || true
+        docker rm sinc_calc || true
+      ignore_errors: yes
+
+    - name: Remove Existing Docker Image (if exists)
+      shell: docker rmi -f navalbisht444/test || true
+      ignore_errors: yes
+
     - name: Pull Docker Image from Docker Hub
       docker_image:
         name: "navalbisht444/test"
