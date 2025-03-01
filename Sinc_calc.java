@@ -73,4 +73,5 @@ public class Sinc_calc {
 
       return var1;
    }
+
 }
