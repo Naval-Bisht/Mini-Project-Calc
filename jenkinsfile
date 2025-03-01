@@ -47,6 +47,7 @@ pipeline {
             }
         }
     }
+    
 
     post {
         success {
@@ -73,6 +74,7 @@ pipeline {
                     <p><b>Time:</b> ${new Date()}</p>
                 """,
                 to: 'navalbisht444@gmail.com',
+                
                 mimeType: 'text/html'
             )
         }
