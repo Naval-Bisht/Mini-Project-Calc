@@ -15,5 +15,5 @@ EXPOSE 8080
 
 
 # Run the JAR file
-CMD ["java", "-jar", "/app/Sinc_calc.jar"]
+CMD ["java", "-jar", "/app/sinc_calc.jar"]
 
