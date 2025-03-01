@@ -1,19 +1,17 @@
 pipeline {
     agent any
     triggers { 
-      githubPush() 
-   }
+        githubPush() 
+    }
     environment {
         DOCKER_IMAGE_NAME = 'sinc_calc'
         GITHUB_REPO_URL = 'https://github.com/Naval-Bisht/Mini-Project-Calc.git'
-       //#GITHUB_REPO_URL = 'https://github.com/BThangaraju/calculator.git'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout the code from the GitHub repository
                     git branch: 'main', url: "${GITHUB_REPO_URL}"
                 }
             }
@@ -22,7 +20,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image
                     docker.build("${DOCKER_IMAGE_NAME}", '.')
                 }
             }
@@ -30,25 +27,55 @@ pipeline {
 
         stage('Push Docker Images') {
             steps {
-                script{
+                script {
                     docker.withRegistry('', 'DockerHubCred') {
-                    sh 'docker tag sinc_calc navalbisht444/test:latest'
-                    sh 'docker push navalbisht444/test'
+                        sh 'docker tag sinc_calc navalbisht444/test:latest'
+                        sh 'docker push navalbisht444/test'
                     }
-                 }
+                }
             }
         }
 
-   stage('Run Ansible Playbook') {
+        stage('Run Ansible Playbook') {
             steps {
                 script {
                     ansiblePlaybook(
                         playbook: 'deploy.yml',
                         inventory: 'inventory'
-                     )
+                    )
                 }
             }
         }
+    }
 
+    post {
+        success {
+            emailext (
+                subject: "✅ Jenkins Build SUCCESS: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
+                body: """
+                    <h2 style="color:green;">🎉 Build Successful!</h2>
+                    <p>The build <b>${env.JOB_NAME} - ${env.BUILD_NUMBER}</b> completed successfully.</p>
+                    <p>Check build details here: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                    <p><b>Time:</b> ${new Date()}</p>
+                """,
+                to: 'navalbisht444@gmail.com',
+                mimeType: 'text/html'
+            )
+        }
+
+        failure {
+            emailext (
+                subject: "❌ Jenkins Build FAILED: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
+                body: """
+                    <h2 style="color:red;">Build Failed ❌</h2>
+                    <p>The build <b>${env.JOB_NAME} - ${env.BUILD_NUMBER}</b> has failed.</p>
+                    <p>Check logs here: <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
+                    <p><b>Time:</b> ${new Date()}</p>
+                """,
+                to: 'navalbisht444@gmail.com',
+                mimeType: 'text/html'
+            )
+        }
     }
 }
+
