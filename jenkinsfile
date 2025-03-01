@@ -56,7 +56,7 @@ pipeline {
             body: """Build status: ${currentBuild.result}
                      Check details here: ${env.BUILD_URL}""",
             to: "navalbisht444@gmail.com",
-            from: "navalbisht444@gmail.com" // Optional: Matches your SMTP username
+            //from: "navalbisht444@gmail.com" // Optional: Matches your SMTP username
         )
    	 }
     }
