@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         DOCKER_IMAGE_NAME = 'sinc_calc'
-        GITHUB_REPO_URL = 'https://github.icom/Naval-Bisht/Mini-Project-Calc.git'
+        GITHUB_REPO_URL = 'https://github.com/Naval-Bisht/Mini-Project-Calc.git'
     }
 
     stages {
@@ -50,34 +50,15 @@ pipeline {
     
 
     post {
-        success {
-            emailext (
-                subject: "✅ Jenkins Build SUCCESS: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
-                body: """
-                    <h2 style="color:green;">🎉 Build Successful!</h2>
-                    <p>The build <b>${env.JOB_NAME} - ${env.BUILD_NUMBER}</b> completed successfully.</p>
-                    <p>Check build details here: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                    <p><b>Time:</b> ${new Date()}</p>
-                """,
-                to: 'navalbisht444@gmail.com',
-                mimeType: 'text/html'
-            )
-        }
-
-        failure {
-            emailext (
-                subject: "❌ Jenkins Build FAILED: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
-                body: """
-                    <h2 style="color:red;">Build Failed ❌</h2>
-                    <p>The build <b>${env.JOB_NAME} - ${env.BUILD_NUMBER}</b> has failed.</p>
-                    <p>Check logs here: <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
-                    <p><b>Time:</b> ${new Date()}</p>
-                """,
-                to: 'navalbisht444@gmail.com',
-                
-                mimeType: 'text/html'
-            )
-        }
+        always {
+        emailext (
+            subject: "Build ${currentBuild.fullDisplayName} - ${currentBuild.result}",
+            body: """Build status: ${currentBuild.result}
+                     Check details here: ${env.BUILD_URL}""",
+            to: "navalbisht444@gmail.com",
+            from: "navalbisht444@gmail.com" // Optional: Matches your SMTP username
+        )
+   	 }
     }
 }
 
