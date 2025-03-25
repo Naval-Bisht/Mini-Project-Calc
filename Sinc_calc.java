@@ -7,7 +7,7 @@ public class Sinc_calc {
 
    public static void main(String[] var0) {
       Scanner var1 = new Scanner(System.in);
-
+      System.out.println("\ncheck for viva");
       while(true) {
          while(true) {
             System.out.println("\nScientific Calculator - Choose an operation:");
