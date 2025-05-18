@@ -8,6 +8,8 @@ pipeline {
         DOCKER_IMAGE_NAME = 'sinc_calc'
         GITHUB_REPO_URL = 'https://github.com/Naval-Bisht/Mini-Project-Calc.git'
         
+        
+        
     }
 
     stages {
